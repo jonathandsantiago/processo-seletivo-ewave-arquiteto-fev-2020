@@ -23,7 +23,7 @@ por padrão já irá vir incluso alguns produtos e usuários.
 Usuários com o tipo garçom e cozinha.
 Usuários:
 	Login: garcom
-	Password: garom
+	Password: garcom
 	--
 	Login: cozinha
 	Password: cozinha	
