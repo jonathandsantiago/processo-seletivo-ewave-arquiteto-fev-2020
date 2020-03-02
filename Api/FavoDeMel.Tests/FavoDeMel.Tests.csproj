@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.5" />
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FavoDeMel.IoC\FavoDeMel.IoC.csproj" />
+    <ProjectReference Include="..\FavoDeMel.Repository\FavoDeMel.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

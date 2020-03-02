@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="6.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FavoDeMel.Domain\FavoDeMel.Domain.csproj" />
+    <ProjectReference Include="..\FavoDeMel.Repository\FavoDeMel.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

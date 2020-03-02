@@ -1,0 +1,39 @@
+﻿<div class="row card-login">
+  <div class="col-md-4 col-md-offset-4 container-login">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-md-12">
+            <mat-card>
+
+              <mat-card-header>
+                <mat-card-title>Favo de Mel</mat-card-title>
+              </mat-card-header>
+
+              <mat-card-content class="content">
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Login</mat-label>
+                  <input matInput maxlength="256" placeholder="Login"
+                         formControlName="login">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Senha</mat-label>
+                  <input matInput maxlength="256" placeholder="Senha"
+                         formControlName="password">
+                </mat-form-field>
+
+                <mat-card-actions class="mat-card action-button-login">
+                  <button mat-flat-button class="button-login" color="primary">Login</button>
+                </mat-card-actions>
+
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

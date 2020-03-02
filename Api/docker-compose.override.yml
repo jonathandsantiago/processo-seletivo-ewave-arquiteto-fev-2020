@@ -1,0 +1,57 @@
+version: '3.6'
+
+services:
+  favodemel.api:
+    ports:
+      - "8080:80"
+      - "44300:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44300
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - favodemel-network
+    depends_on:
+      - sql-database
+
+  sql-database:   
+    image: microsoft/mssql-server-linux:2017-latest
+    build:
+      context: .
+      dockerfile: sql/Dockerfile
+    ports:
+      - "1401:1433"
+    environment:
+      - SA_PASSWORD=P@ssw0rd
+      - ACCEPT_EULA=Y
+    volumes: 
+      - favodemel-sqlserver-data:/var/opt/mssql
+    networks:
+      - favodemel-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      - "15674:15674"
+    environment:
+     - RABBITMQ_DEFAULT_USER=user
+     - RABBITMQ_DEFAULT_PASS=pass
+     - RABBITMQ_DEFAULT_VHOST=vhost
+    volumes:
+      - favodemel-rabbitmq-data:/var/lib/rabbitmq
+      - ./docker/enabled_plugins:/etc/rabbitmq/enabled_plugins
+    networks:
+      - favodemel-network
+
+volumes:
+  favodemel-rabbitmq-data:
+  favodemel-sqlserver-data:
+
+networks: 
+  favodemel-network:
+    name: favodemel-network

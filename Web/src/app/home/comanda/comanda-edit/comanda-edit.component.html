@@ -1,0 +1,40 @@
+<div class="content-header">
+
+  <form [formGroup]="comandaPedidoForm">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <mat-card>
+            <mat-card-content>
+              <app-comanda-form [parentFormGroup]="comandaPedidoForm" [produtos]="produtos"></app-comanda-form>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <mat-card-actions class="mat-card">
+      <button mat-flat-button color="primary" (click)="adicionarPedido()">Adicionar Produto</button>
+      <button mat-flat-button color="primary" (click)="submit()">Salvar</button>
+    </mat-card-actions>
+
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortDisableClear>
+
+      <ng-container matColumnDef="produtoNome">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Produto</th>
+        <td data-label="Produto" mat-cell *matCellDef="let element">
+          {{element.produtoNome}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantidade">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Quantidade</th>
+        <td data-label="Quantidade" mat-cell *matCellDef="let element">
+          {{element.quantidade}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </form>
+</div>

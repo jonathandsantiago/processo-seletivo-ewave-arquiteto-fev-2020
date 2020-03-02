@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FavoDeMel.Tests": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

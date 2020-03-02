@@ -1,0 +1,74 @@
+﻿<div class="row">
+  <div class="column">
+    <h2>Novos pedidos</h2>
+    <div *ngFor="let comanda of getNovoPedido()">
+
+      <mat-card class="pedido-card">
+        <mat-card-header>
+          <div mat-card-avatar class="pedido-header-image"></div>
+          <mat-card-title>Garçom: {{comanda.garcomNome}}</mat-card-title>
+          <mat-card-subtitle>Comanda: {{comanda.id}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let pedido of comanda.pedidos">
+            <p [style.text-decoration]="getDecoration(pedido)">
+              * Qtd: <strong>{{pedido.quantidade}}</strong> - {{pedido.produtoNome}}
+            </p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button (click)="iniciarPreparoPedido(comanda)">Iniciar</button>
+          <button mat-button (click)="cancelarPedido(comanda)">Cancelar</button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+  </div>
+  <div class="column">
+    <h2>Preparando</h2>
+    <div *ngFor="let comanda of getPedidosPreparando()">
+
+      <mat-card class="pedido-card">
+        <mat-card-header>
+          <div mat-card-avatar class="pedido-header-image"></div>
+          <mat-card-title>Garçom: {{comanda.garcomNome}}</mat-card-title>
+          <mat-card-subtitle>Comanda: {{comanda.id}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let pedido of comanda.pedidos">
+            <p [style.text-decoration]="getDecoration(pedido)">
+              * Qtd: {{pedido.quantidade}} - {{pedido.produtoNome}} :
+              <strong>Situação:</strong>{{getSituacao(pedido.situacao)}}</p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button (click)="finalizarPedido(comanda)">Finalizar</button>
+          <button mat-button (click)="cancelarPedido(comanda)">Cancelar</button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+  </div>
+  <div class="column">
+    <h2>Pronto</h2>
+    <div *ngFor="let comanda of getPedidosPronto()">
+
+      <mat-card class="pedido-card">
+        <mat-card-header>
+          <div mat-card-avatar class="pedido-header-image"></div>
+          <mat-card-title>Garçom: {{comanda.garcomNome}}</mat-card-title>
+          <mat-card-subtitle>Comanda: {{comanda.id}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let pedido of comanda.pedidos">
+            <p [style.text-decoration]="getDecoration(pedido)">
+              * Qtd: {{pedido.quantidade}} - {{pedido.produtoNome}} :
+              <strong>Situação:</strong>{{getSituacao(pedido.situacao)}}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+</div>
+

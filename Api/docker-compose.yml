@@ -1,0 +1,8 @@
+version: '3.6'
+
+services:
+  favodemel.api:
+    image: ${DOCKER_REGISTRY-}favodemelapi
+    build:
+      context: .
+      dockerfile: FavoDeMel.Api/Dockerfile    
