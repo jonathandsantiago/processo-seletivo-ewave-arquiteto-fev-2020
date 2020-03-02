@@ -37,8 +37,8 @@
         <mat-card-content>
           <div *ngFor="let pedido of comanda.pedidos">
             <p [style.text-decoration]="getDecoration(pedido)">
-              * Qtd: {{pedido.quantidade}} - {{pedido.produtoNome}} :
-              <strong>Situação:</strong>{{getSituacao(pedido.situacao)}}</p>
+              * Qtd: <strong>{{pedido.quantidade}}</strong> - {{pedido.produtoNome}}
+            </p>
           </div>
         </mat-card-content>
         <mat-card-actions>
@@ -62,8 +62,8 @@
         <mat-card-content>
           <div *ngFor="let pedido of comanda.pedidos">
             <p [style.text-decoration]="getDecoration(pedido)">
-              * Qtd: {{pedido.quantidade}} - {{pedido.produtoNome}} :
-              <strong>Situação:</strong>{{getSituacao(pedido.situacao)}}</p>
+              * Qtd: <strong>{{pedido.quantidade}}</strong> - {{pedido.produtoNome}}
+            </p>
           </div>
         </mat-card-content>
       </mat-card>

@@ -33,7 +33,7 @@ namespace FavoDeMel.Api.Controllers
 
         protected override void OnAffertSave(Comanda entity)
         {
-            SendMessage(Mapper.Map<ComandaDto>(entity)).Wait();
+            SendMessageComanda(Mapper.Map<ComandaDto>(entity)).Wait();
         }
 
         [HttpPut]
@@ -54,7 +54,14 @@ namespace FavoDeMel.Api.Controllers
         {
             try
             {
-                return Ok(await _appService.AlterarSituacaoPedido(comandaId, situacao));
+                var result = await _appService.AlterarSituacaoPedido(comandaId, situacao);
+
+                if (situacao == ComandaPedidoSituacao.Pronto)
+                {
+                    await SendMessage($"Pedidos comanda {comandaId} estão prontos!");
+                }
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

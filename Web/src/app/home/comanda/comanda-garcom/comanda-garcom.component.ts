@@ -11,6 +11,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {PageEvent} from '@angular/material/paginator/paginator';
 import {Comanda} from '../../../models/comanda';
 import {MatTableDataSource} from '@angular/material/table';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export const COMANDA_PAGINATOR = new InjectionToken('COMANDA_PAGINATOR', {
   providedIn: 'root',
@@ -28,6 +29,7 @@ export const COMANDA_PAGINATOR = new InjectionToken('COMANDA_PAGINATOR', {
 export class ComandaGarcomComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  private comandaSubscription: Subscription;
 
   public displayedColumns: string[] = ['id', 'garcom', 'totalAPagar', 'gorjetaGarcom'];
   public dataSource = new MatTableDataSource<Comanda>();
@@ -43,10 +45,21 @@ export class ComandaGarcomComponent implements OnInit, OnDestroy {
     }) as { pageNumber: number, pageSize: number };
 
   constructor(@Inject(COMANDA_PAGINATOR) protected paginatorPlugin: PaginatorPlugin<Comanda>,
-              private comandaService: ComandaService) {
+              protected comandaService: ComandaService,
+              protected rxStompService: RxStompService,
+              protected snackbar: MatSnackBar) {
   }
 
   ngOnInit() {
+
+    this.comandaSubscription = this.rxStompService.watch('/exchange/mensageria_queue').subscribe((message: Message) => {
+      const result = JSON.parse(message.body);
+      if (result && result.message && result.message.notificacao) {
+
+        this.alert(result.message.notificacao);
+      }
+    });
+
     const mudancaDePagina$ = this.paginator.page
       .pipe(map(page => page.pageSize),
         startWith(this.paginacao.pageSize),
@@ -86,5 +99,10 @@ export class ComandaGarcomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.comandaSubscription.unsubscribe();
+  }
+
+  alert(message: string) {
+    this.snackbar.open(message, null, {duration: 5000});
   }
 }

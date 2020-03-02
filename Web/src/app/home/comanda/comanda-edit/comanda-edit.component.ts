@@ -1,18 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Comanda} from '../../../models/comanda';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ComandaService} from "../comanda.service";
-import {Observable, Subscription} from "rxjs";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {ComandaQuery} from "../comanda.query";
-import {AkitaNgFormsManager} from "@datorama/akita-ng-forms-manager";
-import {Produto} from "../../../models/produto";
-import {ProdutoService} from "../produto.service";
-import {LoginService} from "../../../login/login.service";
-import {ComandaPedido} from "../../../models/comanda-pedido";
-import {MatTableDataSource} from "@angular/material/table";
-import {Usuario} from "../../../models/usuario";
+import {ComandaService} from '../comanda.service';
+import {Observable, Subscription} from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ComandaQuery} from '../comanda.query';
+import {AkitaNgFormsManager} from '@datorama/akita-ng-forms-manager';
+import {Produto} from '../../../models/produto';
+import {ProdutoService} from '../produto.service';
+import {LoginService} from '../../../login/login.service';
+import {ComandaPedido, ComandaPedidoSituacao} from '../../../models/comanda-pedido';
+import {MatTableDataSource} from '@angular/material/table';
+import {Usuario} from '../../../models/usuario';
 
 @Component({
   selector: 'app-comanda-edit',
@@ -28,7 +28,7 @@ export class ComandaEditComponent implements OnInit, OnDestroy {
   public pedidos = [] as ComandaPedido[];
   public comandaId: any;
   public usuario: Usuario;
-  public displayedColumns: string[] = ['produtoNome', 'quantidade'];
+  public displayedColumns: string[] = ['produtoNome', 'quantidade', 'actions'];
   public dataSource = new MatTableDataSource<ComandaPedido>();
 
   protected subscription: Subscription = new Subscription();
@@ -71,8 +71,9 @@ export class ComandaEditComponent implements OnInit, OnDestroy {
                     this.router.navigateByUrl('/not-found');
                   }
 
-                  if (!item.pedidos)
+                  if (!item.pedidos) {
                     this.pedidos = item.pedidos;
+                  }
                 },
                 (error) => this.alert('Registro inválido!')
               );
@@ -80,8 +81,9 @@ export class ComandaEditComponent implements OnInit, OnDestroy {
               this.subscription.add(this.item$.subscribe(item => {
                 this.item = item;
 
-                if (!item.pedidos)
+                if (!item.pedidos) {
                   this.pedidos = item.pedidos;
+                }
 
                 this.initializeForm();
               }));
@@ -93,7 +95,7 @@ export class ComandaEditComponent implements OnInit, OnDestroy {
   }
 
   alert(message: string) {
-    this.snackbar.open(message, null, {duration: 2000})
+    this.snackbar.open(message, null, {duration: 2000});
   }
 
   initializeForm() {
@@ -107,7 +109,7 @@ export class ComandaEditComponent implements OnInit, OnDestroy {
   submit() {
     if (this.comandaPedidoForm.valid) {
       if (this.pedidos.length === 0) {
-        this.alert('É obrigatório ao menos um produto para salvar a comanda!')
+        this.alert('É obrigatório ao menos um produto para salvar a comanda!');
         return;
       }
 
@@ -130,19 +132,19 @@ export class ComandaEditComponent implements OnInit, OnDestroy {
 
   adicionarPedido() {
     if (!this.comandaPedidoForm.valid || this.comandaPedidoForm.value === null) {
-      this.alert('Pedido invalido!')
+      this.alert('Pedido invalido!');
       return;
     }
 
     if (!this.comandaPedidoForm.value.produto) {
-      this.alert('Produto é obrigatório!')
+      this.alert('Produto é obrigatório!');
       return;
     }
 
     const comandaPedido = this.comandaPedidoForm.value;
 
     if (comandaPedido.quantidade <= 0) {
-      this.alert('Quantidade invalida!')
+      this.alert('Quantidade invalida!');
       return;
     }
 
@@ -158,7 +160,27 @@ export class ComandaEditComponent implements OnInit, OnDestroy {
       garcom: this.usuario.nome,
       produto: {},
       quantidade: 0
-    })
+    });
+  }
+
+  removerPedido(value: any) {
+    if (value) {
+      if (value.id > 0) {
+        if (value.situacao === ComandaPedidoSituacao.preparando) {
+          alert('Pedido já está em preparo!');
+          return;
+        }
+
+        if (value.situacao === ComandaPedidoSituacao.pronto) {
+          alert('Pedido já está pronto!');
+          return;
+        }
+      }
+
+      const index = this.pedidos.indexOf(value);
+      this.pedidos.splice(index, 1);
+      this.dataSource = new MatTableDataSource<ComandaPedido>(this.pedidos);
+    }
   }
 
   ngOnDestroy(): void {

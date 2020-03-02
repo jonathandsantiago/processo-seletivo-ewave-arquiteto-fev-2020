@@ -27,6 +27,7 @@ import {ComandaEditComponent} from './comanda/comanda-edit/comanda-edit.componen
 import {ComandaFormComponent} from "./comanda/comanda-form/comanda-form.component";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {CdkTableModule} from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
         MatStepperModule,
         MatSnackBarModule,
         MatTabsModule,
-        MatGridListModule
+        MatGridListModule,
+        CdkTableModule
     ],
   exports: [HomeComponent]
 })

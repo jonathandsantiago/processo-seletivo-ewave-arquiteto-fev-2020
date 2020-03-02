@@ -2,6 +2,7 @@
 {
     public interface IMessage
     {
-        public string CamandaCozinha { get; set; }
+        public string Comanda { get; set; }
+        public string Notificacao { get; set; }
     }
 }

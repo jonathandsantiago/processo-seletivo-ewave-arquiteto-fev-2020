@@ -189,10 +189,15 @@ namespace FavoDeMel.Api.Controllers.Common
             return string.Join(Environment.NewLine, _appService.Result.Select(c => c));
         }
 
-        protected virtual async Task SendMessage<TMessage>(TMessage result)
+        protected virtual async Task SendMessageComanda<TMessage>(TMessage result)
             where TMessage : class
         {
-            await _bus.Send<IMessage>(JsonConvert.SerializeObject(result));
+            await _bus.Send<IMessage>(new { Comanda = JsonConvert.SerializeObject(result) }) ;
+        }
+
+        protected virtual async Task SendMessage(string messsage)
+        {
+            await _bus.Send<IMessage>(new { Notificacao = messsage });
         }
     }
 }
